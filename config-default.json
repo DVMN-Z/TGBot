@@ -6,10 +6,10 @@
     },
     "users" : {
         "owners" : {
-            "nick" : {
+            "nick1" : {
                 "id" : 111111
             },
-            "nick" : {
+            "nick2" : {
                 "id" : 111111
             }
         }
