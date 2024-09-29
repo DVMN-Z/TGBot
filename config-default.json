@@ -1,0 +1,17 @@
+{
+    "private" : {
+        "bot" : {
+            "token" : "token"
+        }    
+    },
+    "users" : {
+        "owners" : {
+            "nick" : {
+                "id" : 111111
+            },
+            "nick" : {
+                "id" : 111111
+            }
+        }
+    }
+}
