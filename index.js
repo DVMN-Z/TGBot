@@ -1,10 +1,34 @@
 const config = require('./config.json');
 const token = config.private.bot.token;
 
-const { Bot, GrammyError, HttpError } = require('grammy');
+const { Bot, GrammyError, HttpError, InlineKeyboard } = require('grammy');
 const bot = new Bot(token);
 
-bot.stop()
+const fs = require('fs');
+
+function loadfiles(err, fl) {
+    if (err) {console.error(err);}
+    
+    let js = files.filter(f => f.split('.').pop() === 'js');
+    if (js.lenght <= 0) {
+        return console.log("[!] => Не удалось загрузить команды, так как нет файлов команд для загрузки!");
+    }
+    js.forEach((f, i) => {
+        let pull = require('')
+    });
+}
+
+fs.readdir('./modules/ru/', (err, fl) => {
+    if (err) {console.error(err);}
+    
+    let js = files.filter(f => f.split('.').pop() === 'js');
+    if (js.lenght <= 0) {
+        return console.log("[!] => Не удалось загрузить команды, так как нет файлов команд для загрузки!");
+    }
+    js.forEach((f, i) => {
+        let pull = require(`./modules/ru/${f}`);
+    });
+});
 
 bot.catch((err) => {
     const ctx = err.ctx
@@ -20,8 +44,30 @@ bot.catch((err) => {
     }
 });
 
+const select_lang_InlineKeyboard = new InlineKeyboard()
+.text('🇷🇺    RUS    🇷🇺', 'button_lang_ru')
+.text('🇺🇸    ENG    🇺🇸', 'button_lang_en');
+
+
+bot.command(['start', 'change_lang'], async (c) => {
+    await c.reply("Выберите язык    |    Select your language", {
+        reply_markup:select_lang_InlineKeyboard,
+    });
+});
+
+bot.callbackQuery('button_lang_ru', async (c) => {
+    await c.reply('Я понял, вы хотите быть русским =)');
+});
+
+bot.callbackQuery('button_lang_en', async (c) => {
+    await c.reply('Okay, I get you =)');
+});
+
 /*
-bot.command('who', (c) => {
+bot.on('message', (c) => {
+    console.log(c);
+});
+bot.command('getupdate', (c) => {
     let b = c.update.message.from.id;
     let i = 0;
     let iend = Object.keys(config.users.owners).length;
@@ -32,9 +78,9 @@ bot.command('who', (c) => {
         };
     };
     if (i != iend) {
-        c.reply("Я владею этим ебаным селом");
+        c.reply('1');
     } else {
-        c.reply('Ты не овнер. Прикольно да?');
+        c.reply('2');
     };
 });
 */
