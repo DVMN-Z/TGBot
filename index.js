@@ -1,12 +1,26 @@
 const config = require('./config.json');
 const token = config.private.bot.token;
 
-const { Bot } = require('grammy');
+const { Bot, GrammyError, HttpError } = require('grammy');
 const bot = new Bot(token);
 
 bot.stop()
 
+bot.catch((err) => {
+    const ctx = err.ctx
+    console.error(`Возникла ошибка с обновлением ${ctx.update.update_id}: `);
 
+    const e = err.error;
+    if (e instanceof GrammyError) {
+        console.error('Ошибка с запросом: ', e.description);
+    } else if (e instanceof HttpError) {
+        console.error('Ошибка с подключением: ', e.description);
+    } else {
+        console.error('Незвестная ошибка: ', e);
+    }
+});
+
+/*
 bot.command('who', (c) => {
     let b = c.update.message.from.id;
     let i = 0;
@@ -23,5 +37,5 @@ bot.command('who', (c) => {
         c.reply('Ты не овнер. Прикольно да?');
     };
 });
-
+*/
 bot.start();
